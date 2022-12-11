@@ -10,12 +10,15 @@ A simple loot table for Unity. It's easily customizable and allows you to bring 
 ```cs
 using UnityEditor;
 using UnityEngine;
+using Kellojo.SimpleLootTable;
+using Kellojo.SimpleLootTable.Editor;
 
 [CreateAssetMenu(menuName = "Kellojo/Loot Table/Game Object Loot Table")]
 public class GameObjectLootTable : LootTableBase<GameObject> {}
 
 [System.Serializable]
 public class GameObjectDropConfig : DropConfig<GameObject> { }
+
 
 #if UNITY_EDITOR
 
