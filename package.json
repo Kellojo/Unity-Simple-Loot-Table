@@ -1,0 +1,14 @@
+{
+    "name": "com.kellojo.simple-loot-table",
+    "version": "1.0.0",
+    "displayName": "Kellojo's Simple Loot Table",
+    "description": "A simple loot table for Unity. It's easily customizable and allows you to bring your own item classes and types.",
+    "unity": "2019.1",
+    "dependencies": {
+        
+    },
+    "author": {
+        "name": "Kellojo",
+        "url": "https://github.com/Kellojo"
+    }
+}
