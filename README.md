@@ -9,7 +9,7 @@ A simple loot table for Unity. It's easily customizable and allows you to bring 
 ```cs
 using System.Collections.Generic;
 using UnityEngine;
-using Kellojo.SimpleLootTable;
+using SimpleLootTable;
 
 public class OrePile : MonoBehaviour
 {
@@ -39,8 +39,8 @@ public class OrePile : MonoBehaviour
 ```cs
 using UnityEditor;
 using UnityEngine;
-using Kellojo.SimpleLootTable;
-using Kellojo.SimpleLootTable.Editor;
+using SimpleLootTable;
+using SimpleLootTable.Editor;
 
 [CreateAssetMenu(menuName = "Kellojo/Loot Table/Game Object Loot Table")]
 public class GameObjectLootTable : LootTableBase<GameObject> {}
