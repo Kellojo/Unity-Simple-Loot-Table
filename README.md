@@ -5,7 +5,7 @@ A simple loot table for Unity. It's easily customizable and allows you to bring 
 
 ## Using a custom item class/type
 
-1. Create a new CS script with the following Content and replace the used `GameObject` type with your desired type
+1. Create a new CS script with the following Content:
 
 ```cs
 using UnityEditor;
