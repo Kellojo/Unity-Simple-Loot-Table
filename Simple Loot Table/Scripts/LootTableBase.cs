@@ -9,18 +9,17 @@ namespace Kellojo.SimpleLootTable {
 
 
         [SerializeField] public List<DropConfig<T>> GuaranteedDrops = new List<DropConfig<T>>();
-        [SerializeField] public List<DropConfig<T>> OptionalDrops = new List<DropConfig<T>>();
+        [SerializeField] public List<WeightedDropConfig<T>> OptionalDrops = new List<WeightedDropConfig<T>>();
         [SerializeField] protected int NoDropWeight = 100;
 
-        public int OverallGuaranteedDropsWeight {
-            get {
-                return GuaranteedDrops.Aggregate(0, (acc, x) => acc + x.Weight);
-            }
-        }
         public int OverallOptionalDropsWeight {
             get {
                 return OptionalDrops.Aggregate(0, (acc, x) => acc + x.Weight);
             }
+        }
+
+        protected void OnValidate() {
+            if (NoDropWeight < 0) NoDropWeight = 0;
         }
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace Kellojo.SimpleLootTable {
             return Random.Range(dropConfig.MinCount, dropConfig.MaxCount + 1);
         }
 
-        public float GetChanceFor(DropConfig<T> dropConfig) {
+        public float GetChanceFor(WeightedDropConfig<T> dropConfig) {
             if (dropConfig == null) return (float)NoDropWeight / (OverallOptionalDropsWeight + NoDropWeight);
 
             return (float)dropConfig.Weight / (OverallOptionalDropsWeight + NoDropWeight);
@@ -99,8 +98,12 @@ namespace Kellojo.SimpleLootTable {
     }
 
     [System.Serializable]
-    public class DropConfig<T> where T : Object {
+    public class WeightedDropConfig<T> : DropConfig<T> where T : Object  {
         public int Weight = 1;
+    }
+
+    [System.Serializable]
+    public class DropConfig<T> where T : Object {
         public int MinCount;
         public int MaxCount = 1;
         public T Drop;

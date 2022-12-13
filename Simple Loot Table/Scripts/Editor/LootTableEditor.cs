@@ -15,17 +15,12 @@ namespace Kellojo.SimpleLootTable.Editor {
             EditorGUILayout.LabelField("Loot Table", GetSecondaryTitleStyle());
             EditorGUILayout.Space(32);
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("GuaranteedDrops"));
-            EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("OptionalDrops"));
+            EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("NoDropWeight"));
-
-
+            base.OnInspectorGUI();
             DrawDropChances();
 
-            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck()) serializedObject.ApplyModifiedProperties();
         }
 
 
