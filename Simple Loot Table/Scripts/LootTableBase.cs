@@ -20,6 +20,8 @@ namespace Kellojo.SimpleLootTable {
 
         protected void OnValidate() {
             if (NoDropWeight < 0) NoDropWeight = 0;
+            GuaranteedDrops.ForEach(drop => drop.OnValidate());
+            OptionalDrops.ForEach(drop => drop.OnValidate());
         }
 
         /// <summary>
@@ -100,6 +102,11 @@ namespace Kellojo.SimpleLootTable {
     [System.Serializable]
     public class WeightedDropConfig<T> : DropConfig<T> where T : Object  {
         public int Weight = 1;
+
+        public override void OnValidate() {
+            base.OnValidate();
+            if (Weight <= 0) Weight = 1;
+        }
     }
 
     [System.Serializable]
@@ -116,6 +123,11 @@ namespace Kellojo.SimpleLootTable {
             }
 
             return Drop.name + count;
+        }
+
+        public virtual void OnValidate() {
+            if (MinCount < 0) MinCount = 0;
+            if (MaxCount <= 0) MaxCount = 1;
         }
     }
 }
