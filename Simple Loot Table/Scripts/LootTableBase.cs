@@ -92,7 +92,10 @@ namespace Kellojo.SimpleLootTable {
         }
 
         public float GetChanceFor(WeightedDropConfig<T> dropConfig) {
-            if (dropConfig == null) return (float)NoDropWeight / (OverallOptionalDropsWeight + NoDropWeight);
+            if (dropConfig == null) {
+                if (NoDropWeight == 0) return 0f;
+                return (float)NoDropWeight / (OverallOptionalDropsWeight + NoDropWeight);
+            }
 
             return (float)dropConfig.Weight / (OverallOptionalDropsWeight + NoDropWeight);
         }
