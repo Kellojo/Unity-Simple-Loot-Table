@@ -8,8 +8,8 @@ namespace Kellojo.SimpleLootTable {
     public abstract class LootTableBase<T> : ScriptableObject where T : Object {
 
 
-        [SerializeField] public List<DropConfig<T>> GuaranteedDrops;
-        [SerializeField] public List<DropConfig<T>> OptionalDrops;
+        [SerializeField] public List<DropConfig<T>> GuaranteedDrops = new List<DropConfig<T>>();
+        [SerializeField] public List<DropConfig<T>> OptionalDrops = new List<DropConfig<T>>();
         [SerializeField] protected int NoDropWeight = 100;
 
         public int OverallGuaranteedDropsWeight {
@@ -33,7 +33,7 @@ namespace Kellojo.SimpleLootTable {
             GuaranteedDrops.ForEach(dropConfig => {
                 if (dropConfig.Drop == null) return;
 
-                var count = Random.Range(dropConfig.MinCount, dropConfig.MaxCount);
+                var count = GetCountFor(dropConfig);
                 for (int i = 0; i < count; i++) {
                     result.Add(dropConfig.Drop);
                 }
@@ -64,24 +64,30 @@ namespace Kellojo.SimpleLootTable {
         public List<T> GetOptionalDrop() {
             var result = new List<T>();
             var roll = Random.Range(0, OverallOptionalDropsWeight + NoDropWeight);
-            var dropsAnything = roll > NoDropWeight;
+            var dropsAnything = roll >= NoDropWeight;
 
             if (!dropsAnything) return result;
 
-            var weight = 0;
             var adjustedRoll = roll - NoDropWeight;
-
             for (int i = 0; i < OptionalDrops.Count; i++) {
                 var dropConfig = OptionalDrops[i];
-                if (weight >= adjustedRoll) {
+                adjustedRoll -= dropConfig.Weight;
+
+                if (adjustedRoll > 0) continue;
+
+                var count = GetCountFor(dropConfig);
+                for (int j = 0; j < count; j++) {
                     result.Add(dropConfig.Drop);
-                    break;
                 }
 
-                weight += dropConfig.Weight;
+                break;
             }
 
             return result;
+        }
+
+        public int GetCountFor(DropConfig<T> dropConfig) {
+            return Random.Range(dropConfig.MinCount, dropConfig.MaxCount + 1);
         }
 
         public float GetChanceFor(DropConfig<T> dropConfig) {
