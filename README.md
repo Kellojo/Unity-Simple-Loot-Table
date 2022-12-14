@@ -1,10 +1,27 @@
 # Unity-Simple-Loot-Table
-A simple loot table for Unity. It allows you to easily create loot table for your game and manage them in an intuitive UI. You can customize it easily to work with different data types as your drop. You can for example switch out the standard GameObjects to a custom item class or similar by following [the steps below](-)
+A simple loot table for Unity. It allows you to easily create loot table for your game and manage them in an intuitive UI. You can customize it easily to work with different data types as your drop. You can for example switch out the standard GameObjects to a custom item class or similar by following [the steps below](#using-a-custom-item-classtype)
 
 
 <p align="center">
   <img width="352" height="535" src="/Simple%20Loot%20Table/Images/Preview.png">
 </p>
+
+## Features
+- Easily drop a range of optional and guaranteed drops
+- Preview drop chances, when editing your loot tables
+- Customize the used drop class and use your own item class
+
+
+## Installation
+You can add the package to your project in the following ways:
+1. Get it on the [Unity Asset Store](https://assetstore.unity.com/)
+
+
+2. Downloading it via the package manager or manually add the dependency to your manifest.json:
+
+```json
+"com.kellojo.simple-loot-table": "https://github.com/Kellojo/Unity-Simple-Loot-Table.git",
+```
 
 
 ## Using a loot table
