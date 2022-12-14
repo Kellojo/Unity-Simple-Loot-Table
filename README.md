@@ -1,6 +1,10 @@
 # Unity-Simple-Loot-Table
 A simple loot table for Unity. It's easily customizable and allows you to bring your own item classes and types.
 
+
+![Inspector preview](/Simple Loot Table/Images/Preview.png)
+
+
 ## Using a loot table
 1. Create a new loot table scriptable object using the create menu `Create/Kellojo/Loot Table/`
 2. Setup your loot table with your loot
