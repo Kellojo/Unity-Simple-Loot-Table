@@ -11,6 +11,7 @@ A simple loot table for Unity. It allows you to easily create loot table for you
 - Drop items based on an assigned weight
 - Preview drop chances, when editing your loot tables
 - Customize the used drop class and use your own item class
+- Adjust your loot tables on the fly in an intuitive and easiy to use inspector
 
 
 ## Installation
