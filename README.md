@@ -3,7 +3,7 @@ A simple loot table for Unity. It allows you to easily create loot table for you
 
 
 <p align="center">
-  <img width="352" height="535" src="/Simple%20Loot%20Table/Images/Preview.png">
+  <img width="368" height="513" src="/Simple%20Loot%20Table/Images/Preview.png">
 </p>
 
 ## Features
