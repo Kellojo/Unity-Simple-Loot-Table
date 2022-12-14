@@ -10,7 +10,8 @@ namespace Kellojo.SimpleLootTable {
 
         [SerializeField] public List<DropConfig<T>> GuaranteedDrops = new List<DropConfig<T>>();
         [SerializeField] public List<WeightedDropConfig<T>> OptionalDrops = new List<WeightedDropConfig<T>>();
-        [SerializeField] protected int NoDropWeight = 100;
+        [SerializeField, Tooltip("The weight to get no drop when rolling for an optional drop. 0 indicates that you will always receive something.")]
+        protected int NoDropWeight = 100;
 
         public int OverallOptionalDropsWeight {
             get {
