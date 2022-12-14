@@ -1,8 +1,10 @@
 # Unity-Simple-Loot-Table
-A simple loot table for Unity. It's easily customizable and allows you to bring your own item classes and types.
+A simple loot table for Unity. It allows you to easily create loot table for your game and manage them in an intuitive UI. You can customize it easily to work with different data types as your drop. You can for example switch out the standard GameObjects to a custom item class or similar by following [the steps below](-)
 
 
-![Inspector preview](/Simple Loot Table/Images/Preview.png)
+<p align="center">
+  <img width="352" height="535" src="/Simple%20Loot%20Table/Images/Preview.png">
+</p>
 
 
 ## Using a loot table
