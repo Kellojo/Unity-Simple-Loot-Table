@@ -16,7 +16,7 @@ A simple loot table for Unity. It allows you to easily create loot table for you
 
 ## Installation
 You can add the package to your project in the following ways:
-1. Get it on the [Unity Asset Store](https://assetstore.unity.com/)
+1. Get it on the [Unity Asset Store](https://assetstore.unity.com/241778/765700)
 
 
 2. Downloading it via the package manager or manually add the dependency to your manifest.json:
@@ -85,3 +85,6 @@ public class GameObjectLootTableEditor : LootTableEditorBase<GameObject> { }
 2. Replace `GameObject` with your custom type/class
 3. Adjust the `menuName` to match your class name
 4. Ensure your custom item class is serialized by Unity
+
+## Credits
+This asset was inspired by an existing asset [Loot Table - Universal Loot System](https://assetstore.unity.com/packages/tools/utilities/loot-table-universal-loot-system-234682). I had issues extending it and adding custom item classes to it, which is why this asset has been created.
