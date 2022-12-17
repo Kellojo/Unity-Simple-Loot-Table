@@ -19,6 +19,7 @@ namespace Kellojo.SimpleLootTable.Editor {
 
             base.OnInspectorGUI();
             DrawDropChances();
+            DrawDemoSection();
 
             if (EditorGUI.EndChangeCheck()) serializedObject.ApplyModifiedProperties();
         }
@@ -47,6 +48,15 @@ namespace Kellojo.SimpleLootTable.Editor {
             var chance = lootTable.GetChanceFor(null);
             DrawChanceEntry(chance, "No Drop - " + Mathf.Floor(chance * 1000) / 10 + "%");
 
+        }
+
+        void DrawDemoSection() {
+            EditorGUILayout.Separator();
+
+            LootTableBase<T> lootTable = (LootTableBase<T>)target;
+            if (GUILayout.Button("Simulate Drop")) {
+                lootTable.SimulateDrop();
+            }
         }
 
         GUIStyle GetTitleStyle() {

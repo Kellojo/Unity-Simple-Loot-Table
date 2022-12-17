@@ -35,7 +35,7 @@ namespace Kellojo.SimpleLootTable {
             GuaranteedDrops.ForEach(dropConfig => {
                 if (dropConfig.Drop == null) return;
 
-                var count = GetCountFor(dropConfig);
+                var count = dropConfig.GetRandomCount();
                 for (int i = 0; i < count; i++) {
                     result.Add(dropConfig.Drop);
                 }
@@ -77,7 +77,7 @@ namespace Kellojo.SimpleLootTable {
 
                 if (adjustedRoll > 0) continue;
 
-                var count = GetCountFor(dropConfig);
+                var count = dropConfig.GetRandomCount();
                 for (int j = 0; j < count; j++) {
                     result.Add(dropConfig.Drop);
                 }
@@ -88,10 +88,13 @@ namespace Kellojo.SimpleLootTable {
             return result;
         }
 
-        public int GetCountFor(DropConfig<T> dropConfig) {
-            return Random.Range(dropConfig.MinCount, dropConfig.MaxCount + 1);
-        }
 
+
+        /// <summary>
+        /// Get's the drop chance for a given drop config
+        /// </summary>
+        /// <param name="dropConfig"></param>
+        /// <returns></returns>
         public float GetChanceFor(WeightedDropConfig<T> dropConfig) {
             if (dropConfig == null) {
                 if (NoDropWeight == 0) return 0f;
@@ -101,15 +104,35 @@ namespace Kellojo.SimpleLootTable {
             return (float)dropConfig.Weight / (OverallOptionalDropsWeight + NoDropWeight);
         }
 
+
+        /// <summary>
+        /// Simulates a drop via the console
+        /// </summary>
+        public void SimulateDrop() {
+            Debug.Log("Simulating Drop for " + name);
+
+            var guaranteed = GetGuaranteedDrops();
+            var optionals = GetOptionalDrops(1);
+
+            var line = "Guaranteed: ";
+            guaranteed.ForEach(drop => line += drop + ", ");
+            Debug.Log(line);
+
+            line = "Optional: ";
+            optionals.ForEach(drop => line += drop + ", ");
+            Debug.Log(line);
+        }
+
+
     }
 
     [System.Serializable]
     public class WeightedDropConfig<T> : DropConfig<T> where T : Object  {
-        public int Weight = 1;
+        public int Weight = 10;
 
         public override void OnValidate() {
             base.OnValidate();
-            if (Weight <= 0) Weight = 1;
+            if (Weight <= 0) Weight = 10;
         }
     }
 
@@ -132,6 +155,15 @@ namespace Kellojo.SimpleLootTable {
         public virtual void OnValidate() {
             if (MinCount < 0) MinCount = 0;
             if (MaxCount <= 0) MaxCount = 1;
+        }
+
+        /// <summary>
+        /// Get's the amount of items to spawn for a given config
+        /// </summary>
+        /// <param name="dropConfig"></param>
+        /// <returns></returns>
+        public int GetRandomCount() {
+            return Random.Range(MinCount, MaxCount + 1);
         }
     }
 }
