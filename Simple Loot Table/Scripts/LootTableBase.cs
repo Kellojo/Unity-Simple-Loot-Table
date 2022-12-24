@@ -88,7 +88,19 @@ namespace Kellojo.SimpleLootTable {
             return result;
         }
 
-
+        /// <summary>
+        /// Get's the guaranteed and optional drops as a single list
+        /// </summary>
+        /// <param name="optionalCount"></param>
+        /// <returns></returns>
+        public List<T> GetGuaranteedAndOptionalDrops(int optionalCount) {
+            var guaranteed = GetGuaranteedDrops();
+            var optional = GetOptionalDrops(optionalCount);
+            var result = new List<T>();
+            result.AddRange(guaranteed);
+            result.AddRange(optional);
+            return result;
+        }
 
         /// <summary>
         /// Get's the drop chance for a given drop config
