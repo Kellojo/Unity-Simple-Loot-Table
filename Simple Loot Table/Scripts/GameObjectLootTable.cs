@@ -1,8 +1,6 @@
 using UnityEditor;
 using UnityEngine;
-using Kellojo.SimpleLootTable.Editor;
 using Kellojo.SimpleLootTable;
-
 
 namespace Kellojo.SimpleLootTable {
 
@@ -13,10 +11,3 @@ namespace Kellojo.SimpleLootTable {
     public class GameObjectDropConfig : DropConfig<GameObject> { }
 
 }
-
-#if UNITY_EDITOR
-
-[CustomEditor(typeof(GameObjectLootTable))]
-public class GameObjectLootTableEditor : LootTableEditorBase<GameObject> { }
-
-#endif

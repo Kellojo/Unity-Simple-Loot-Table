@@ -65,26 +65,33 @@ public class OrePile : MonoBehaviour
 using UnityEditor;
 using UnityEngine;
 using SimpleLootTable;
-using SimpleLootTable.Editor;
 
 [CreateAssetMenu(menuName = "Kellojo/Loot Table/Game Object Loot Table")]
 public class GameObjectLootTable : LootTableBase<GameObject> {}
 
 [System.Serializable]
 public class GameObjectDropConfig : DropConfig<GameObject> { }
-
-
-#if UNITY_EDITOR
-
-[CustomEditor(typeof(GameObjectLootTable))]
-public class GameObjectLootTableEditor : LootTableEditorBase<GameObject> { }
-
-#endif
 ```
 
 2. Replace `GameObject` with your custom type/class
 3. Adjust the `menuName` to match your class name
 4. Ensure your custom item class is serialized by Unity
+5. Create another script in your `Editor` folder which contains the editor for your custom loot table type:
+
+```cs
+using UnityEditor;
+using UnityEngine;
+using Kellojo.SimpleLootTable;
+using Kellojo.SimpleLootTable.Editor;
+
+[CustomEditor(typeof(GameObjectLootTable))]
+public class GameObjectLootTableEditor : LootTableEditorBase<GameObject> { }
+```
+
+6. Replace `GameObject` with your custom type/class
+7. Rename the class to more closely match your custom type (i.e. `GameObjectLootTableEditor` -> `ItemLootTableEditor`)
+7. Done! Your custom loot table can now be used.
+
 
 ## Credits
 This asset was inspired by an existing asset [Loot Table - Universal Loot System](https://assetstore.unity.com/packages/tools/utilities/loot-table-universal-loot-system-234682). I had issues extending it and adding custom item classes to it, which is why this asset has been created.

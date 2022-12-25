@@ -1,0 +1,18 @@
+{
+    "name": "Simple-Loot-Table-Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b2762eab68bfc54488b8d6a9efe72b9c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
