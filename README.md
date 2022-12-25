@@ -50,6 +50,11 @@ public class OrePile : MonoBehaviour
         // spawn optional drops
         var optionalDrops = LootTable.GetOptionalDrops(2);
         optionalDrops.ForEach(drop => Instantiate(drop, transform.position, transform.rotation));
+
+
+        // spawn both at the same time
+        var combinedDrops = LootTable.GetGuaranteedAndOptionalDrops(2);
+        combinedDrops.ForEach(drop => Instantiate(drop, transform.position, transform.rotation));
         
     }
 
