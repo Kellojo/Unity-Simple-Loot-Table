@@ -1,5 +1,30 @@
 # Unity-Simple-Loot-Table
-A simple loot table for Unity. It's easily customizable and allows you to bring your own item classes and types.
+A simple loot table for Unity. It allows you to easily create loot table for your game and manage them in an intuitive UI. You can customize it easily to work with different data types as your drop. You can for example switch out the standard GameObjects to a custom item class or similar by following [the steps below](#using-a-custom-item-classtype)
+
+
+<p align="center">
+  <img width="368" height="513" src="/Images/Preview.png">
+</p>
+
+## Features
+- Easily drop a range of optional and guaranteed drops
+- Drop items based on an assigned weight
+- Preview drop chances, when editing your loot tables
+- Customize the used drop class and use your own item class
+- Adjust your loot tables on the fly in an intuitive and easiy to use inspector
+
+
+## Installation
+You can add the package to your project in the following ways:
+1. Get it on the [Unity Asset Store](https://assetstore.unity.com/241778/765700)
+
+
+2. Downloading it via the package manager or manually add the dependency to your manifest.json:
+
+```json
+"com.kellojo.simple-loot-table": "https://github.com/Kellojo/Unity-Simple-Loot-Table.git",
+```
+
 
 ## Using a loot table
 1. Create a new loot table scriptable object using the create menu `Create/Kellojo/Loot Table/`
@@ -62,6 +87,11 @@ using Kellojo.SimpleLootTable.Editor;
 [CustomEditor(typeof(GameObjectLootTable))]
 public class GameObjectLootTableEditor : LootTableEditorBase<GameObject> { }
 ```
+
 6. Replace `GameObject` with your custom type/class
 7. Rename the class to more closely match your custom type (i.e. `GameObjectLootTableEditor` -> `ItemLootTableEditor`)
 7. Done! Your custom loot table can now be used.
+
+
+## Credits
+This asset was inspired by an existing asset [Loot Table - Universal Loot System](https://assetstore.unity.com/packages/tools/utilities/loot-table-universal-loot-system-234682). I had issues extending it and adding custom item classes to it, which is why this asset has been created.

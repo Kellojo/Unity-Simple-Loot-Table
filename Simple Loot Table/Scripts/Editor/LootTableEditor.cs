@@ -15,17 +15,13 @@ namespace Kellojo.SimpleLootTable.Editor {
             EditorGUILayout.LabelField("Loot Table", GetSecondaryTitleStyle());
             EditorGUILayout.Space(32);
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("GuaranteedDrops"));
-            EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("OptionalDrops"));
+            EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("NoDropWeight"));
-
-
+            base.OnInspectorGUI();
             DrawDropChances();
+            DrawDemoSection();
 
-            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck()) serializedObject.ApplyModifiedProperties();
         }
 
 
@@ -52,6 +48,15 @@ namespace Kellojo.SimpleLootTable.Editor {
             var chance = lootTable.GetChanceFor(null);
             DrawChanceEntry(chance, "No Drop - " + Mathf.Floor(chance * 1000) / 10 + "%");
 
+        }
+
+        void DrawDemoSection() {
+            EditorGUILayout.Separator();
+
+            LootTableBase<T> lootTable = (LootTableBase<T>)target;
+            if (GUILayout.Button("Simulate Drop")) {
+                lootTable.SimulateDrop();
+            }
         }
 
         GUIStyle GetTitleStyle() {

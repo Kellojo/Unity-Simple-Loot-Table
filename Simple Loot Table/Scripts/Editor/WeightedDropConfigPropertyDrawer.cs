@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEditor;
-using Kellojo.SimpleLootTable;
+
 
 namespace Kellojo.SimpleLootTable.Editor {
 
-    [CustomPropertyDrawer(typeof(DropConfig<>))]
-    public class DropConfigPropertyDrawer : DropConfigPropertyDrawerBase {
+    [CustomPropertyDrawer(typeof(WeightedDropConfig<>))]
+    public class WeightedDropConfigPropertyDrawer : DropConfigPropertyDrawerBase {
 
         const int FIELD_SPACING = 8;
         const int LINE_SPACING = 8;
@@ -21,14 +21,16 @@ namespace Kellojo.SimpleLootTable.Editor {
 
             position.height = (position.height - LINE_SPACING) / 2;
 
-            position = DrawLabel(position, overallWidth, "Drop", 0.7f);
+            position = DrawLabel(position, overallWidth, "Weight", 0.15f);
+            position = DrawLabel(position, overallWidth, "Drop", 0.55f);
             position = DrawLabel(position, overallWidth, "Min Count", 0.15f);
             position = DrawLabel(position, overallWidth, "Max Count", 0.15f);
 
             position.y += GetPropertyHeight(property, label) / 2;
             position.x = initialX;
 
-            position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("Drop"), 0.7f);
+            position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("Weight"), 0.15f);
+            position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("Drop"), 0.55f);
             position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("MinCount"), 0.15f);
             position = DrawPropertyField(position, overallWidth, property.FindPropertyRelative("MaxCount"), 0.15f);
 

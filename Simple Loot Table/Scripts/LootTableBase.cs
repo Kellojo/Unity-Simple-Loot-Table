@@ -8,19 +8,21 @@ namespace Kellojo.SimpleLootTable {
     public abstract class LootTableBase<T> : ScriptableObject where T : Object {
 
 
-        [SerializeField] public List<DropConfig<T>> GuaranteedDrops;
-        [SerializeField] public List<DropConfig<T>> OptionalDrops;
-        [SerializeField] protected int NoDropWeight = 100;
+        [SerializeField] public List<DropConfig<T>> GuaranteedDrops = new List<DropConfig<T>>();
+        [SerializeField] public List<WeightedDropConfig<T>> OptionalDrops = new List<WeightedDropConfig<T>>();
+        [SerializeField, Tooltip("The weight to get no drop when rolling for an optional drop. 0 indicates that you will always receive something.")]
+        protected int NoDropWeight = 100;
 
-        public int OverallGuaranteedDropsWeight {
-            get {
-                return GuaranteedDrops.Aggregate(0, (acc, x) => acc + x.Weight);
-            }
-        }
         public int OverallOptionalDropsWeight {
             get {
                 return OptionalDrops.Aggregate(0, (acc, x) => acc + x.Weight);
             }
+        }
+
+        protected void OnValidate() {
+            if (NoDropWeight < 0) NoDropWeight = 0;
+            GuaranteedDrops.ForEach(drop => drop.OnValidate());
+            OptionalDrops.ForEach(drop => drop.OnValidate());
         }
 
         /// <summary>
@@ -33,7 +35,7 @@ namespace Kellojo.SimpleLootTable {
             GuaranteedDrops.ForEach(dropConfig => {
                 if (dropConfig.Drop == null) return;
 
-                var count = Random.Range(dropConfig.MinCount, dropConfig.MaxCount);
+                var count = dropConfig.GetRandomCount();
                 for (int i = 0; i < count; i++) {
                     result.Add(dropConfig.Drop);
                 }
@@ -64,37 +66,90 @@ namespace Kellojo.SimpleLootTable {
         public List<T> GetOptionalDrop() {
             var result = new List<T>();
             var roll = Random.Range(0, OverallOptionalDropsWeight + NoDropWeight);
-            var dropsAnything = roll > NoDropWeight;
+            var dropsAnything = roll >= NoDropWeight;
 
             if (!dropsAnything) return result;
 
-            var weight = 0;
             var adjustedRoll = roll - NoDropWeight;
-
             for (int i = 0; i < OptionalDrops.Count; i++) {
                 var dropConfig = OptionalDrops[i];
-                if (weight >= adjustedRoll) {
+                adjustedRoll -= dropConfig.Weight;
+
+                if (adjustedRoll > 0) continue;
+
+                var count = dropConfig.GetRandomCount();
+                for (int j = 0; j < count; j++) {
                     result.Add(dropConfig.Drop);
-                    break;
                 }
 
-                weight += dropConfig.Weight;
+                break;
             }
 
             return result;
         }
 
-        public float GetChanceFor(DropConfig<T> dropConfig) {
-            if (dropConfig == null) return (float)NoDropWeight / (OverallOptionalDropsWeight + NoDropWeight);
+        /// <summary>
+        /// Get's the guaranteed and optional drops as a single list
+        /// </summary>
+        /// <param name="optionalCount"></param>
+        /// <returns></returns>
+        public List<T> GetGuaranteedAndOptionalDrops(int optionalCount) {
+            var guaranteed = GetGuaranteedDrops();
+            var optional = GetOptionalDrops(optionalCount);
+            var result = new List<T>();
+            result.AddRange(guaranteed);
+            result.AddRange(optional);
+            return result;
+        }
+
+        /// <summary>
+        /// Get's the drop chance for a given drop config
+        /// </summary>
+        /// <param name="dropConfig"></param>
+        /// <returns></returns>
+        public float GetChanceFor(WeightedDropConfig<T> dropConfig) {
+            if (dropConfig == null) {
+                if (NoDropWeight == 0) return 0f;
+                return (float)NoDropWeight / (OverallOptionalDropsWeight + NoDropWeight);
+            }
 
             return (float)dropConfig.Weight / (OverallOptionalDropsWeight + NoDropWeight);
         }
 
+
+        /// <summary>
+        /// Simulates a drop via the console
+        /// </summary>
+        public void SimulateDrop() {
+            Debug.Log("Simulating Drop for " + name);
+
+            var guaranteed = GetGuaranteedDrops();
+            var optionals = GetOptionalDrops(1);
+
+            var line = "Guaranteed: ";
+            guaranteed.ForEach(drop => line += drop + ", ");
+            Debug.Log(line);
+
+            line = "Optional: ";
+            optionals.ForEach(drop => line += drop + ", ");
+            Debug.Log(line);
+        }
+
+
+    }
+
+    [System.Serializable]
+    public class WeightedDropConfig<T> : DropConfig<T> where T : Object  {
+        public int Weight = 10;
+
+        public override void OnValidate() {
+            base.OnValidate();
+            if (Weight <= 0) Weight = 10;
+        }
     }
 
     [System.Serializable]
     public class DropConfig<T> where T : Object {
-        public int Weight = 1;
         public int MinCount;
         public int MaxCount = 1;
         public T Drop;
@@ -107,6 +162,20 @@ namespace Kellojo.SimpleLootTable {
             }
 
             return Drop.name + count;
+        }
+
+        public virtual void OnValidate() {
+            if (MinCount < 0) MinCount = 0;
+            if (MaxCount <= 0) MaxCount = 1;
+        }
+
+        /// <summary>
+        /// Get's the amount of items to spawn for a given config
+        /// </summary>
+        /// <param name="dropConfig"></param>
+        /// <returns></returns>
+        public int GetRandomCount() {
+            return Random.Range(MinCount, MaxCount + 1);
         }
     }
 }
