@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using Kellojo.SimpleLootTable;
 
 namespace Kellojo.SimpleLootTable.Editor {
 
