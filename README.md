@@ -69,7 +69,7 @@ public class OrePile : MonoBehaviour
 ```cs
 using UnityEditor;
 using UnityEngine;
-using SimpleLootTable;
+using Kellojo.SimpleLootTable;
 
 [CreateAssetMenu(menuName = "Kellojo/Loot Table/Game Object Loot Table")]
 public class GameObjectLootTable : LootTableBase<GameObject> {}
