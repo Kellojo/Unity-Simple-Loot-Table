@@ -1,1 +1,0 @@
-The documentation can be found at https://github.com/Kellojo/Unity-Simple-Loot-Table
