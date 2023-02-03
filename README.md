@@ -16,7 +16,7 @@ A simple loot table for Unity. It allows you to easily create loot table for you
 
 ## Installation
 You can add the package to your project in the following ways:
-1. Get it on the [Unity Asset Store](https://assetstore.unity.com/241778/765700)
+1. Get it on the [Unity Asset Store](https://u3d.as/2YYy)
 
 
 2. Downloading it via the package manager or manually add the dependency to your manifest.json:
