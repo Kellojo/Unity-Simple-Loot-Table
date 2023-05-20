@@ -57,6 +57,9 @@ namespace Kellojo.SimpleLootTable.Editor {
             if (GUILayout.Button("Simulate Drop")) {
                 lootTable.SimulateDrop();
             }
+            if (GUILayout.Button("Simulate 1000 Drops")) {
+                lootTable.Simulate1000Drops();
+            }
         }
 
         GUIStyle GetTitleStyle() {
