@@ -64,16 +64,18 @@ namespace Kellojo.SimpleLootTable {
         /// </summary>
         /// <returns></returns>
         public List<T> GetOptionalDrop() {
+            var noDropWeight = NoDropWeight * WeightedDropConfig<T>.WEIGHT_ROLL_ADJUSTMENT;
+            var overallOptionalDropsWeight = OverallOptionalDropsWeight *  WeightedDropConfig<T>.WEIGHT_ROLL_ADJUSTMENT;
             var result = new List<T>();
-            var roll = Random.Range(0, OverallOptionalDropsWeight + NoDropWeight);
-            var dropsAnything = roll >= NoDropWeight;
+            var roll = Random.Range(0, overallOptionalDropsWeight + noDropWeight);
+            var dropsAnything = roll >= noDropWeight;
 
             if (!dropsAnything) return result;
 
-            var adjustedRoll = roll - NoDropWeight;
+            var adjustedRoll = roll - noDropWeight;
             for (int i = 0; i < OptionalDrops.Count; i++) {
                 var dropConfig = OptionalDrops[i];
-                adjustedRoll -= dropConfig.Weight;
+                adjustedRoll -= dropConfig.WeightForDropCalculation;
 
                 if (adjustedRoll > 0) continue;
 
@@ -135,12 +137,58 @@ namespace Kellojo.SimpleLootTable {
             Debug.Log(line);
         }
 
+        /// <summary>
+        /// Simulates a drop via the console
+        /// </summary>
+        public void Simulate1000Drops() {
+            Debug.Log("Simulating Drop for " + name);
+
+            var guaranteed = new Dictionary<string, int>();
+            var optional = new Dictionary<string, int>();
+
+            for (int i = 0; i < 1000; i++) {
+                var curGuaranteed = GetGuaranteedDrops();
+                curGuaranteed.ForEach(drop => {
+                    if (!guaranteed.ContainsKey(drop.name)) guaranteed[drop.name] = 0;
+                    guaranteed[drop.name] = guaranteed[drop.name] + 1;
+                });
+
+                var curOptionals = GetOptionalDrops(1);
+                curOptionals.ForEach(drop => {
+                    if (!optional.ContainsKey(drop.name)) optional[drop.name] = 0;
+                    optional[drop.name] = optional[drop.name] + 1;
+                });
+            }
+
+
+
+            var line = "Guaranteed: ";
+            foreach(var key in guaranteed.Keys) {
+                line += $"{guaranteed[key]} x {key}, ";
+            }
+            Debug.Log(line);
+
+            line = "Optional: ";
+             foreach(var key in optional.Keys) {
+                line += $"{optional[key]} x {key}, ";
+            }
+            Debug.Log(line);
+        }
+
 
     }
 
     [System.Serializable]
     public class WeightedDropConfig<T> : DropConfig<T> where T : Object  {
+
+        public const int WEIGHT_ROLL_ADJUSTMENT = 10;
+
         public int Weight = 10;
+        public int WeightForDropCalculation {
+            get {
+                return Weight * WEIGHT_ROLL_ADJUSTMENT;
+            }
+        }
 
         public override void OnValidate() {
             base.OnValidate();
